@@ -29,7 +29,7 @@ public class CharacterManager : MonoBehaviour
         playerCustomisation.SetPlayerCustomisation(materialsHead[headNumber], materialsLeg[legNumber]);
     }
 
-    public void ApplyMaterialToCharacter()
+    public void ApplyMaterialToCharacter() //An overloaded function, the same function with different input parameters and different things to do inside the function
     {
         if (playerCustomisation == null)
         {
