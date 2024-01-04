@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     public PowerUpType currentPowerUp = PowerUpType.None;
     public GameObject bulletPrefab;
+    public GameObject powerupIndicator;
 
     private bool hasPowerUp = false;
 
@@ -30,9 +31,16 @@ public class PlayerController : MonoBehaviour
         float forwardInput = Input.GetAxis("Vertical");
         playerRb.AddForce(focalPoint.transform.forward * speed * forwardInput);
 
+        powerupIndicator.transform.position = transform.position + new Vector3(0, -0.5f, 0);
+
         if (currentPowerUp == PowerUpType.ManyBullets && Input.GetKeyDown(KeyCode.Space))
         {
             ShootBullets();
+        }
+
+        if (transform.position.y < -5)
+        {
+            Debug.Log("Game Over");
         }
     }
 
@@ -43,6 +51,7 @@ public class PlayerController : MonoBehaviour
             hasPowerUp = true;
             currentPowerUp = other.gameObject.GetComponent<PowerUp>().powerUpType;
             Destroy(other.gameObject);
+            powerupIndicator.gameObject.SetActive(true);
 
             if (powerUpCountdown != null)
             {
@@ -54,9 +63,10 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator PowerUpCountdownRoutine()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(7);
         hasPowerUp = false;
         currentPowerUp = PowerUpType.None;
+        powerupIndicator.gameObject.SetActive(false);
     }
 
     private void ShootBullets()
