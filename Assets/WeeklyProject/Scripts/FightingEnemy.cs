@@ -34,6 +34,11 @@ public class FightingEnemy : MonoBehaviour
             //Enemy aggression against player
             Attack();
         }
+
+        if (transform.position.y < -5)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Attack()

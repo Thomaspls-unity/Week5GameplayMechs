@@ -1,9 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum PowerUpType
+{
+    None,
+    ManyBullets,
+    GroundSlam
+}
 
 public class PowerUp : MonoBehaviour
 {
+    public PowerUpType powerUpType;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,14 +21,5 @@ public class PowerUp : MonoBehaviour
     void Update()
     {
         
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("You've got a power-up, press space to keep super safe!");
-            Destroy(gameObject);
-        }
     }
 }
