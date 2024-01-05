@@ -5,7 +5,8 @@ public enum PowerUpType
 {
     None,
     ManyBullets,
-    GroundSlam
+    GroundSlam,
+    BigHitter
 }
 
 public class PowerUp : MonoBehaviour
