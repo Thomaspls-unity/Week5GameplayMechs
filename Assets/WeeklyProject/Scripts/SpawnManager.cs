@@ -7,7 +7,10 @@ public class SpawnManager : MonoBehaviour
     private GameObject player;
     private Rigidbody enemyRb;
     public float speed;
+    public int enemyCount;
+    public int waveNumber = 1;
 
+    public GameObject[] powerUpPrefabs;
     public Rigidbody[] enemyPrefabs;
     private float spawnRange = 9;
 
@@ -19,20 +22,32 @@ public class SpawnManager : MonoBehaviour
         player = GameObject.Find("Player");
         enemyRb = GetComponent<Rigidbody>();
 
-        InvokeRepeating("SpawnEnemy", startDelay, spawnInterval);
+        SpawnEnemy(waveNumber);
+
+        Instantiate(powerUpPrefabs[Random.Range(0, powerUpPrefabs.Length)], GenerateSpawnPos(), Quaternion.identity);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        enemyCount = FindObjectsOfType<FightingEnemy>().Length;
+        if (enemyCount == 0 )
+        {
+            waveNumber++;
+            SpawnEnemy(waveNumber);
+
+            Instantiate(powerUpPrefabs[Random.Range(0, powerUpPrefabs.Length)], GenerateSpawnPos(), Quaternion.identity);
+        }
     }
 
-    public void SpawnEnemy()
+    public void SpawnEnemy(int enemiesToSpawn)
     {
-        Vector3 lookDirection = (player.transform.position - transform.position).normalized;
-        Rigidbody enemyRb = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], GenerateSpawnPos(), player.transform.rotation);
-        enemyRb.AddForce(lookDirection * speed);
+        for (int i = 0; i < enemiesToSpawn; i++) 
+        {
+            Vector3 lookDirection = (player.transform.position - transform.position).normalized;
+            Rigidbody enemyRb = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], GenerateSpawnPos(), player.transform.rotation);
+            enemyRb.AddForce(lookDirection * speed);
+        }
     }
 
     private Vector3 GenerateSpawnPos()
