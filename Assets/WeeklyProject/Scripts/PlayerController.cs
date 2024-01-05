@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private bool hasPowerUp = false;
 
     private GameObject tempBullet;
+    private float powerUpStrength = 16.0f;
     private Coroutine powerUpCountdown;
    
     // Start is called before the first frame update
@@ -75,6 +76,17 @@ public class PlayerController : MonoBehaviour
         {
             tempBullet = Instantiate(bulletPrefab, transform.position + Vector3.up, Quaternion.identity);
             tempBullet.GetComponent<Bullet>().Shoot(enemy.transform);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && hasPowerUp && currentPowerUp == PowerUpType.BigHitter)
+        {
+            Rigidbody enemyRigidBody = collision.gameObject.GetComponent<Rigidbody>();
+            Vector3 awayFromPlayer = (collision.gameObject.transform.position - transform.position);
+
+            enemyRigidBody.AddForce(awayFromPlayer * powerUpStrength, ForceMode.Impulse);
         }
     }
 }
