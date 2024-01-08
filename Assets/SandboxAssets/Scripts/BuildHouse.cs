@@ -19,10 +19,12 @@ public class BuildHouse : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(Build());
-        }
+        
+    }
+
+    public void StartBuild()
+    {
+        StartCoroutine(Build());
     }
 
     public IEnumerator Build()
